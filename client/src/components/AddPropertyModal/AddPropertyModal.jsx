@@ -1,4 +1,10 @@
-import { MantineProvider, Container, Modal, Stepper, Button } from "@mantine/core";
+import {
+  MantineProvider,
+  Container,
+  Modal,
+  Stepper,
+  Button,
+} from "@mantine/core";
 import "@mantine/core/styles.css";
 import React, { useState } from "react";
 import AddLocation from "../AddLocation/AddLocation";
@@ -24,7 +30,7 @@ const AddPropertyModal = ({ opened, setOpened }) => {
       parkings: 0,
       bathrooms: 0,
     },
-    userEmail: user?.email,
+    userEmail: user?.email || "",
   });
 
   const nextStep = () => {
