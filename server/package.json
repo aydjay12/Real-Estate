@@ -4,12 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
-
   "scripts": {
     "start": "nodemon index.js",
     "postinstall": "prisma generate"
   },
-  
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "@prisma/client": "^6.2.1",
     "cookie-parser": "^1.4.7",
