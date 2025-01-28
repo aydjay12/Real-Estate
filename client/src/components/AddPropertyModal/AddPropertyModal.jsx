@@ -1,4 +1,4 @@
-import { MantineProvider, Container, Modal, Stepper } from "@mantine/core";
+import { MantineProvider, Container, Modal, Stepper, Button } from "@mantine/core";
 import "@mantine/core/styles.css";
 import React, { useState } from "react";
 import AddLocation from "../AddLocation/AddLocation";
@@ -35,6 +35,24 @@ const AddPropertyModal = ({ opened, setOpened }) => {
     setActive((current) => (current > 0 ? current - 1 : current));
   };
 
+  // const addSampleData = () => {
+  //   setPropertyDetails((prevDetails) => ({
+  //     ...prevDetails,
+  //     title: "Sample Property",
+  //     description: "A beautiful property in a prime location.",
+  //     price: 500000,
+  //     country: "USA",
+  //     city: "San Francisco",
+  //     address: "123 Main St",
+  //     image: "https://via.placeholder.com/150",
+  //     facilities: {
+  //       bedrooms: 3,
+  //       parkings: 2,
+  //       bathrooms: 2,
+  //     },
+  //   }));
+  // };
+
   return (
     <MantineProvider>
       <Modal
@@ -44,6 +62,9 @@ const AddPropertyModal = ({ opened, setOpened }) => {
         size={"90rem"}
       >
         <Container h={"40rem"} w={"100%"}>
+          {/* <Button onClick={addSampleData} mb="lg">
+            Add Sample Data
+          </Button> */}
           <Stepper
             active={active}
             onStepClick={setActive}
