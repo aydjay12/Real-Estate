@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       domain="dev-ee4hguujf503yj1e.us.auth0.com"
       clientId="Uu4q7eRY5eTwasKqO6yi08uTrEEoLeLL"
       authorizationParams={{
-        redirect_uri: "http://localhost:5173/"
+        redirect_uri: "https://real-estate-eta-hazel.vercel.app"
       }}
       audience="http://localhost:8000"
       scope="openid profile email"
