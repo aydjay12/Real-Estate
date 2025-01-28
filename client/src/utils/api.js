@@ -160,10 +160,7 @@ export const createResidency = async (data, token) => {
     const res = await api.post(
       `/residency/create/`,
       {
-        data: {
-          ...data,
-          userEmail: user?.email, // Include the logged-in user's email
-        },
+        data
       },
       {
         headers: {
@@ -171,11 +168,11 @@ export const createResidency = async (data, token) => {
         },
       }
     );
-    return res.data;
   } catch (error) {
     throw error;
   }
 };
+
 
 export const removeResidency = async (id, token) => {
   try {
