@@ -15,10 +15,19 @@ export const createResidency = asyncHandler(async (req, res) => {
     userEmail,
   } = req.body.data;
 
-  // Log the request body for debugging
   console.log("Request Body:", req.body.data);
 
   try {
+    // Check if the user exists
+    const user = await prisma.user.findUnique({
+      where: { email: userEmail },
+    });
+
+    if (!user) {
+      throw new Error(`No User found with email: ${userEmail}`);
+    }
+
+    // Create the residency
     const residency = await prisma.residency.create({
       data: {
         title,
@@ -41,6 +50,7 @@ export const createResidency = asyncHandler(async (req, res) => {
     throw new Error(err.message);
   }
 });
+
 
 // function to get all the documents/residencies
 export const getAllResidencies = asyncHandler(async (req, res) => {
