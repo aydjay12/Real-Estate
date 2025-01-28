@@ -1,5 +1,4 @@
 import asyncHandler from "express-async-handler";
-
 import { prisma } from "../config/prismaConfig.js";
 
 export const createResidency = asyncHandler(async (req, res) => {
@@ -24,7 +23,7 @@ export const createResidency = asyncHandler(async (req, res) => {
     });
 
     if (!user) {
-      throw new Error(`No User found with email: ${userEmail}`);
+      return res.status(404).send({ message: `No User found with email: ${userEmail}` });
     }
 
     // Create the residency
@@ -45,12 +44,11 @@ export const createResidency = asyncHandler(async (req, res) => {
     res.send({ message: "Residency created successfully", residency });
   } catch (err) {
     if (err.code === "P2002") {
-      throw new Error("A residency with this address already exists");
+      return res.status(400).send({ message: "A residency with this address already exists" });
     }
-    throw new Error(err.message);
+    res.status(500).send({ message: err.message });
   }
 });
-
 
 // function to get all the documents/residencies
 export const getAllResidencies = asyncHandler(async (req, res) => {
@@ -62,7 +60,7 @@ export const getAllResidencies = asyncHandler(async (req, res) => {
     });
     res.send(residencies);
   } catch (err) {
-    throw new Error(err.message);
+    res.status(500).send({ message: err.message });
   }
 });
 
@@ -74,9 +72,12 @@ export const getResidency = asyncHandler(async (req, res) => {
     const residency = await prisma.residency.findUnique({
       where: { id },
     });
+    if (!residency) {
+      return res.status(404).send({ message: "Residency not found" });
+    }
     res.send(residency);
   } catch (err) {
-    throw new Error(err.message);
+    res.status(500).send({ message: err.message });
   }
 });
 
@@ -114,6 +115,6 @@ export const removeResidency = asyncHandler(async (req, res) => {
 
     res.send({ message: "Residency removed successfully" });
   } catch (err) {
-    throw new Error(err.message);
+    res.status(500).send({ message: err.message });
   }
 });
