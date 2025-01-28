@@ -26,7 +26,7 @@ export const createResidency = asyncHandler(async (req, res) => {
     if (!user) {
       user = await prisma.user.create({
         data: {
-          email: userEmail,
+          email: null,
           // Add other default fields if necessary
         },
       });
