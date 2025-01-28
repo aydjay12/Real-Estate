@@ -18,12 +18,18 @@ export const createResidency = asyncHandler(async (req, res) => {
 
   try {
     // Check if the user exists
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { email: userEmail },
     });
 
+    // If the user does not exist, create a new user
     if (!user) {
-      return res.status(404).send({ message: `No User found with email: ${userEmail}` });
+      user = await prisma.user.create({
+        data: {
+          email: userEmail,
+          // Add other default fields if necessary
+        },
+      });
     }
 
     // Create the residency
@@ -44,9 +50,9 @@ export const createResidency = asyncHandler(async (req, res) => {
     res.send({ message: "Residency created successfully", residency });
   } catch (err) {
     if (err.code === "P2002") {
-      return res.status(400).send({ message: "A residency with this address already exists" });
+      throw new Error("A residency with this address already exists");
     }
-    res.status(500).send({ message: err.message });
+    throw new Error(err.message);
   }
 });
 
