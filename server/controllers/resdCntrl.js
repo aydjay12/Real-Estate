@@ -91,36 +91,28 @@ export const removeResidency = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Step 1: Find all users who have booked this residency
-    const usersWithBooking = await prisma.user.findMany({
+    // Step 1: Remove the residency from all users' booked visits
+    await prisma.user.updateMany({
       where: {
         bookedVisits: {
-          hasSome: [{ id }], // Use `hasSome` instead of `some`
+          some: { id }, // Find users who have booked this residency
+        },
+      },
+      data: {
+        bookedVisits: {
+          set: [], // Clear out the booked visits for that residency
         },
       },
     });
 
-    // Step 2: Remove the residency from the bookedVisits array of each user
-    for (const user of usersWithBooking) {
-      const updatedBookedVisits = user.bookedVisits.filter(
-        (visit) => visit.id !== id
-      );
-
-      await prisma.user.update({
-        where: { id: user.id },
-        data: {
-          bookedVisits: updatedBookedVisits,
-        },
-      });
-    }
-
-    // Step 3: Delete the residency
+    // Step 2: Delete the residency
     await prisma.residency.delete({
       where: { id },
     });
 
-    res.send({ message: "Residency removed successfully" });
+    res.send({ message: "Residency and its bookings removed successfully" });
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 });
+
