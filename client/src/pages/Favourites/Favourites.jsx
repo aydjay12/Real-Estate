@@ -44,7 +44,8 @@ const Favourites = () => {
             // data.map((card, i)=> (<PropertyCard card={card} key={i}/>))
 
             data
-              .filter((property) => favourites.includes(property.id))
+              .filter((property) => (favourites || []).includes(property.id))
+              // .filter((property) => favourites.includes(property.id))
 
               .filter(
                 (property) =>
