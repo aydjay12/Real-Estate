@@ -14,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       }}
       audience="http://localhost:8000"
       scope="openid profile email"
+      cacheLocation="localstorage" // Ensure this is set
     >
       <App />
     </Auth0Provider>
